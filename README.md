@@ -12,7 +12,7 @@
 |:---|:---|:---|
 | 2023/ICT/094 | Bandara K.D.S (Leader) | Devinfrfr |
 | 2023/ICT/137 | Anru S.R | R.Sanuja |
-| 2023/ICT/130 | Amarasooriya H.M.K.S | Sathsarani- Stat |
+| 2023/ICT/130 | Amarasooriya H.M.K.S | Sathsarani- Star |
 | 2023/ICT/101 | Atheefa M.B.F | Atheefa2004 |
 | 2023/ICT/039 | Prabodhani A.A.M | Prabodhani2003 |
 | 2023/ICT/84 | Niromi C | Niru-Niromi |
