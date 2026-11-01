@@ -1,0 +1,5 @@
+/vendor/
+/temp/
+.env
+*.log
+Thumbs.db
