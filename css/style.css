@@ -149,6 +149,19 @@ th {
 /* ACTION CARDS - Books Page */
 
 /* ===== LOGIN - Niromi ===== */
+/* LOGIN PAGE */ .login-body {  background: url('../img/bg-login.jpg') no-repeat center;  background-size: cover;  height: 100vh;  display: flex;  justify-content: center;  align-items: center; }
+
+.login-box {  background: white;  padding: 40px;  border-radius: 15px;  width: 350px;  text-align: center;  box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+.login-box h2 {  margin: 0 0 10px 0;  font-size: 24px; }
+
+.login-box p {  color: #666;  margin-bottom: 20px; } 
+
+.login-box input {  width: 100%;  padding: 12px;  margin: 8px 0;  border: 1px solid #ccc;  border-radius: 8px; }
+
+.login-box button {  width: 100%;  padding: 12px;  background: #1e1e2f;  color: white;  border: none;  border-radius: 8px;  cursor: pointer;  margin-top: 10px; }
+
+
 
 /* ===== ISSUE + RETURN - Sathsarani ===== */
 /* ===== ISSUE + RETURN - Sathsarani ===== */
