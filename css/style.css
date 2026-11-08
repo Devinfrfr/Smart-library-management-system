@@ -50,6 +50,34 @@ body { margin: 0; font-family: Arial; background: #f4f4f8; }
 /* ===== LOGIN - Niromi ===== */
 
 /* ===== ISSUE + RETURN - Sathsarani ===== */
+/* ===== ISSUE + RETURN - Sathsarani ===== */
+
+/* ISSUE / RETURN FORM - Centered */
+.form-center-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+.form-card label {
+  font-weight: bold;
+  font-size: 14px;
+}
+.form-card select,
+.form-card input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
 
 /* ===== FEES - Prabodhani ===== */
 
