@@ -217,6 +217,30 @@ th {
 }
 
 /* ===== FEES - Prabodhani ===== */
+/* FEES PAGE Unpaid Fees */
+.unpaid-badge {
+    background: #ff4757;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.paid-badge {
+    background: #2ed573;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.fees-box {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
 
 /* ===== BLACKLIST - Anru ===== */
 /* BLACKLIST PAGE - Blocked Members */
