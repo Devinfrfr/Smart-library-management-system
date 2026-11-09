@@ -164,6 +164,29 @@ th {
 
 
 /* ===== ISSUE + RETURN - Sathsarani ===== */
+/* ===== RETURN - Sathsarani ===== */
+
+/* RETURN PAGE - Fee + Overdue */
+.fee-box {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 15px 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.overdue-text {
+  color: #ff4757;
+  font-weight: bold;
+}
+
+.return-success {
+  color: green;
+  font-weight: bold;
+  text-align: center;
+}
 /* ===== ISSUE + RETURN - Sathsarani ===== */
 
 /* ISSUE / RETURN FORM - Centered */
