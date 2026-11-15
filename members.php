@@ -1,4 +1,10 @@
 <?php
+
+// members.php — Manage Members (staff / admin only)
+
+
+
+
 include "includes/db_connect.php";
 
 if (!isset($_SESSION['admin'])) {
@@ -8,123 +14,110 @@ if (!isset($_SESSION['admin'])) {
 
 $error = "";
 
-if (isset($_POST['add_member'])) {
-    $code = $_POST['member_code'];
-    $name = $_POST['full_name'];
-    $nic = $_POST['nic'];
-    $phone = $_POST['phone'];
-    $email = $_POST['email'];
-    $addr = $_POST['address'];
+$total_members = mysqli_fetch_row(mysqli_query($conn, "SELECT COUNT(*) FROM members"))[0];
 
-    mysqli_query($conn, "INSERT INTO members (member_code, full_name, nic, phone, email, address) VALUES ('$code', '$name', '$nic', '$phone', '$email', '$addr')");
-
-    header("Location: members.php");
-    exit();
-}
-
+// ------------------------------------------------------------------
+// Delete a member — blocked while they have issued books
+// ------------------------------------------------------------------
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
 
-    $check_issued = mysqli_query($conn, "SELECT * FROM issued_books WHERE member_id=$id AND status='Issued'");
+    $check_issued = mysqli_query(
+        $conn,
+        "SELECT * FROM issued_books WHERE member_id = $id AND status = 'Issued'"
+    );
+
+    $check_requests = mysqli_query(
+        $conn,
+        "SELECT * FROM requests WHERE member_id = $id AND status = 'Pending'"
+    );
+
+    $check_fees = mysqli_query(
+        $conn,
+        "SELECT * FROM fees WHERE member_id = $id AND status = 'Unpaid'"
+    );
+
     if (mysqli_num_rows($check_issued) > 0) {
         $error = "Cannot delete member with issued books! Return books first!";
+    } elseif (mysqli_num_rows($check_requests) > 0) {
+        $error = "Cannot delete member! They have a pending request.";
+    } elseif (mysqli_num_rows($check_fees) > 0) {
+        $error = "Cannot delete member! They have unpaid fees.";
     } else {
-        mysqli_query($conn, "DELETE FROM members WHERE member_id=$id");
+        mysqli_query($conn, "DELETE FROM members WHERE member_id = $id");
         header("Location: members.php");
         exit();
     }
 }
-
-if (isset($_GET['block'])) {
-    $id = $_GET['block'];
-    mysqli_query($conn, "UPDATE members SET status='Blocked' WHERE member_id=$id");
-    header("Location: members.php");
-    exit();
-}
-
-if (isset($_GET['unblock'])) {
-    $id = $_GET['unblock'];
-    mysqli_query($conn, "UPDATE members SET status='Active' WHERE member_id=$id");
-    header("Location: members.php");
-    exit();
-}
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Manage Members</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body class="other-bg">
 
     <?php include "includes/sidebar.php"; ?>
 
-    <div class="main">
-        <h1>Manage Members</h1>
+    <div class="main main-staff">
 
-        <?php if ($error != "") { echo "<p style='color:red; font-weight:bold;'>$error</p>"; } ?>
+        
+            <h1>Manage<br>Members</h1>
+            
+      
 
-        <input type="text" id="searchInput" class="search" placeholder="Search members..." onkeyup="searchTable('searchInput','membersTable')">
+        <div class="blob-bg">
+            <div class="box">
 
-        <button class="btn btn-add" onclick="openPopup('addMemberPopup')">Add Member</button>
+                <?php if ($error != "") : ?>
+                    <p style="color: red; font-weight: bold;"><?php echo $error; ?></p>
+                <?php endif; ?>
 
-        <table id="membersTable">
-            <tr>
-                <th>ID</th>
-                <th>Code</th>
-                <th>Name</th>
-                <th>NIC</th>
-                <th>Phone</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
+                <div class="flex" style="align-items: center; justify-content: space-between;">
+                    <input type="text" id="searchInput" class="search" placeholder="Search members..."
+                    onkeyup="searchTable('searchInput', 'membersTable')" style="margin-bottom: 0;">
 
-            <?php
-            $all_members = mysqli_query($conn, "SELECT * FROM members ORDER BY member_id ASC");
+    <p style="margin: 0; font-weight: bold; color: #5F4B7A;">Total Members: <?php echo $total_members; ?></p>
+</div>
+                
 
-            while ($member = mysqli_fetch_assoc($all_members)) {
-                echo "<tr>";
-                echo "<td>" . $member['member_id'] . "</td>";
-                echo "<td>" . $member['member_code'] . "</td>";
-                echo "<td>" . $member['full_name'] . "</td>";
-                echo "<td>" . $member['nic'] . "</td>";
-                echo "<td>" . $member['phone'] . "</td>";
-                echo "<td>" . $member['status'] . "</td>";
-                echo "<td>";
+                <table id="membersTable">
+                    <tr>
+                        <th>ID</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>NIC</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
 
-                echo "<a href='members.php?delete=" . $member['member_id'] . "' class='btn btn-del'>Delete</a> ";
+                    <?php
+                    $all_members = mysqli_query($conn, "SELECT * FROM members ORDER BY member_id ASC");
 
-                if ($member['status'] == 'Active') {
-                    echo "<a href='members.php?block=" . $member['member_id'] . "' class='btn btn-edit'>Block</a>";
-                } else {
-                    echo "<a href='members.php?unblock=" . $member['member_id'] . "' class='btn btn-add'>Unblock</a>";
-                }
+                    while ($member = mysqli_fetch_assoc($all_members)) {
+                        echo "<tr>"
+                            . "<td>" . $member['member_id']   . "</td>"
+                            . "<td>" . $member['member_code'] . "</td>"
+                            . "<td>" . $member['full_name']   . "</td>"
+                            . "<td>" . $member['nic']         . "</td>"
+                            . "<td>" . $member['phone']       . "</td>"
+                            . "<td>" . $member['status']      . "</td>"
+                            . "<td><a href='members.php?delete=" . $member['member_id'] . "' class='btn btn-del'>Delete</a></td>"
+                            . "</tr>";
+                    }
+                    ?>
+                </table>
 
-                echo "</td>";
-                echo "</tr>";
-            }
-            ?>
-        </table>
-    </div>
+                
 
-    <div id="addMemberPopup" class="popup">
-        <div class="popup-content">
-            <h3>Add New Member</h3>
-
-            <form method="POST">
-                <input type="text" name="member_code" placeholder="Member Code (e.g., M005)" required>
-                <input type="text" name="full_name" placeholder="Full Name" required>
-                <input type="text" name="nic" placeholder="NIC" required>
-                <input type="text" name="phone" placeholder="Phone" required>
-                <input type="email" name="email" placeholder="Email">
-                <input type="text" name="address" placeholder="Address">
-                <button type="submit" name="add_member" class="btn btn-add" style="width:100%">Add Member</button>
-                <button type="button" onclick="closePopup('addMemberPopup')" class="btn btn-del" style="width:100%; margin-top:6px">Cancel</button>
-            </form>
+            </div>
         </div>
     </div>
+
+    
 
     <script src="js/search.js"></script>
 
