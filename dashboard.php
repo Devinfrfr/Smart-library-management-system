@@ -21,7 +21,7 @@ if ($available == "") {
 <html>
 <head>
     <title>Dashboard</title>
-    <link rel="stylesheet" href="css/style.css?v=2">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body class="dashboard-bg">
