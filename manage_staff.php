@@ -10,9 +10,9 @@ if (!isset($_SESSION['admin'])) {
     exit();
 }
 
-// [STRIPPED 66 bytes]
+
 // Add a staff member
-// [STRIPPED 66 bytes]
+
 if (isset($_POST['add_staff'])) {
     $staff_name     = $_POST['full_name'];
     $staff_username = $_POST['username'];
